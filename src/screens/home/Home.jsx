@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import Catalog from '../../components/catalog/Catalog'
+import Header from '../../components/header/Header'
 import { getProducts } from '../../logic/ProductService'
 import { populateItems } from '../../redux/actions/cartActions'
-import { itemsSelector } from '../../redux/selectors/shopSelectors'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const items = useSelector(itemsSelector)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,10 +18,9 @@ const Home = () => {
 
   return (
     <div>
-      Home
-      {items.map(item => (
-        <div key={item.id}>{item.id}</div>
-      ))}
+      <Header onBack={() => {}} />
+      <div>Home</div>
+      <Catalog />
     </div>
   )
 }
