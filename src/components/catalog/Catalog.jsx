@@ -6,14 +6,19 @@ import CatalogItem from '../catalog-item/CatalogItem'
 
 const GridContainer = styled.div`
   display: grid;
+  max-width: 1240px;
   grid-template-columns: auto;
-
-  @media (min-width: 500px) {
+  align-items: center;
+  grid-gap: 1em;
+  margin: 0 auto;
+  
+  @media (min-width: 600px) { 
     grid-template-columns: auto auto;
   }
-
+  
   @media (min-width: 768px) {
-    grid-template-columns: repeat(3, auto);
+    max-width: 80%;
+    grid-template-columns: repeat(3, 1fr);
   }
 `
 
@@ -22,7 +27,7 @@ const Catalog = () => {
   return (
     <GridContainer>
       {items.map(item => (
-        <CatalogItem key={item.id} description={item.description} />
+        <CatalogItem key={item.id} thumbnail={item.thumbnailURL} description={item.description} currency={item.currency} price={item.price} />
       ))}
     </GridContainer>
   )

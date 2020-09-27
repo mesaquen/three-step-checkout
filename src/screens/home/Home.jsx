@@ -19,7 +19,6 @@ const Home = () => {
   return (
     <div>
       <Header onBack={() => {}} />
-      <div>Home</div>
       <Catalog />
     </div>
   )
