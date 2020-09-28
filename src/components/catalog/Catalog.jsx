@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { itemsSelector } from '../../redux/selectors/shopSelectors'
 import CatalogItem from '../catalog-item/CatalogItem'
 import { searchItems } from '../../redux/actions/shopActions'
+import SearchBar from '../search-bar/SearchBar'
+import { makeStyles } from '@material-ui/core'
 
 const GridContainer = styled.div`
   display: grid;
@@ -23,6 +25,14 @@ const GridContainer = styled.div`
   }
 `
 
+const useStyles = makeStyles(theme => ({
+  searchBar: {
+    gridColumn: 'span 3',
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(3)
+  },
+}))
+
 const Catalog = () => {
   const dispatch = useDispatch()
   const items = useSelector(itemsSelector)
@@ -30,10 +40,11 @@ const Catalog = () => {
     const { value } = event.target
     dispatch(searchItems(value))
   }
+  const classes = useStyles()
   return (
     <div>
-      <input type='text' onChange={handleSearch} />
       <GridContainer>
+        <SearchBar className={classes.searchBar} />
         {items.map(item => (
           <CatalogItem
             key={item.id}

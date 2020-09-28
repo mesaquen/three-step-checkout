@@ -14,6 +14,11 @@ const filterBySearch = ({ items, generalSearch }) => {
   return items
 }
 
+export const selectGeneralSearch = createSelector(
+  [selectShop],
+  shop => shop.generalSearch,
+)
+
 export const itemsSelector = createSelector(
   [selectShop],
   ({ items, generalSearch }) => ({ items, generalSearch }),
