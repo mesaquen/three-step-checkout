@@ -1,8 +1,21 @@
 import { createSelector } from 'reselect'
 
-const selectShop = state => {
-  console.log(JSON.stringify(state))
-  return state.shop
+const selectShop = state => state.shop
+
+const filterBySearch = ({ items, generalSearch }) => {
+  if (generalSearch?.length > 0) {
+    return items.filter(item => {
+      const data = item.description
+        .toLowerCase()
+        .includes(generalSearch.toLowerCase())
+      return data
+    })
+  }
+  return items
 }
 
-export const itemsSelector = createSelector([selectShop], shop => shop.items)
+export const itemsSelector = createSelector(
+  [selectShop],
+  ({ items, generalSearch }) => ({ items, generalSearch }),
+  filterBySearch,
+)
