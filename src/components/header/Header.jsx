@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import BackIcon from '@material-ui/icons/ArrowBack'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
 import grey from '@material-ui/core/colors/grey'
 import { useSelector } from 'react-redux'
 import { selectHeaderOptions } from '../../redux/selectors/headerSelector'
@@ -19,21 +19,27 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: grey[200],
     boxShadow: theme.shadows[0],
   },
+  toolbar: props => ({
+    maxWidth: props.limitWidth ? '80%' : null,
+    margin: props.limitWidth ?  '0 10vw' : null
+  }),
 }))
 
 const Header = () => {
   const history = useHistory()
   const { title } = useSelector(selectHeaderOptions)
-  const classes = useStyles()
+  const theme = useTheme()
+  const limitWidth = useMediaQuery(theme.breakpoints.up('md'))
+  const classes = useStyles({limitWidth})
   const showBackButton = history.location.pathname !== '/'
-  
-  const handleBack = () => {  
+
+  const handleBack = () => {
     history.goBack()
   }
 
   return (
     <AppBar position='static' className={classes.appbar} color='inherit'>
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         {showBackButton && (
           <Button onClick={handleBack} startIcon={<BackIcon />}>
             Back
