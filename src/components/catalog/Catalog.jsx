@@ -5,6 +5,7 @@ import CatalogItem from '../catalog-item/CatalogItem'
 import SearchBar from '../search-bar/SearchBar'
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
 import { addToCart } from '../../redux/actions/cartActions'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   gridContainer: props => ({
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Catalog = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const items = useSelector(itemsSelector)
   const theme = useTheme()
@@ -46,6 +48,7 @@ const Catalog = () => {
 
   const handleAddToCart = (itemId) => {
     dispatch(addToCart(itemId))
+    history.push('checkout')
   }
 
   return (

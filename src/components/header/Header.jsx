@@ -7,6 +7,9 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core'
 import grey from '@material-ui/core/colors/grey'
+import { useSelector } from 'react-redux'
+import { selectHeaderOptions } from '../../redux/selectors/headerSelector'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -18,18 +21,26 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Header = ({ onBack, showBackButton = false }) => {
+const Header = () => {
+  const history = useHistory()
+  const { title } = useSelector(selectHeaderOptions)
   const classes = useStyles()
+  const showBackButton = history.location.pathname !== '/'
+  
+  const handleBack = () => {  
+    history.goBack()
+  }
+
   return (
     <AppBar position='static' className={classes.appbar} color='inherit'>
       <Toolbar>
         {showBackButton && (
-          <Button onClick={onBack} startIcon={<BackIcon />}>
+          <Button onClick={handleBack} startIcon={<BackIcon />}>
             Back
           </Button>
         )}
         <Typography variant='h5' className={classes.title}>
-          Sneakers
+          {title}
         </Typography>
         <Avatar
           alt='Account Image'
