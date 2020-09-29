@@ -48,6 +48,7 @@ const CatalogItem = ({
   thumbnail,
   currency,
   price,
+  onClick,
   ...props
 }) => {
   const classes = useStyles({ thumbnail })
@@ -65,6 +66,7 @@ const CatalogItem = ({
           className={classes.button}
           variant='contained'
           color='primary'
+          onClick={onClick}
           fullWidth
         >
           Add to cart

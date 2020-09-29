@@ -23,6 +23,10 @@ const useStyles = makeStyles(theme => ({
     maxWidth: props.limitWidth ? '80%' : null,
     margin: props.limitWidth ?  '0 10vw' : null
   }),
+  button: {
+    background: 'rgba(0,0,0,0.05)',
+    borderRadius: '1rem'
+  }
 }))
 
 const Header = () => {
@@ -41,7 +45,7 @@ const Header = () => {
     <AppBar position='static' className={classes.appbar} color='inherit'>
       <Toolbar className={classes.toolbar}>
         {showBackButton && (
-          <Button onClick={handleBack} startIcon={<BackIcon />}>
+          <Button className={classes.button} onClick={handleBack} startIcon={<BackIcon />}>
             Back
           </Button>
         )}
