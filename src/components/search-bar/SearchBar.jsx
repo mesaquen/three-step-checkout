@@ -6,11 +6,13 @@ import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles } from '@material-ui/core'
 import { searchItems } from '../../redux/actions/shopActions'
 import { selectGeneralSearch } from '../../redux/selectors/shopSelectors'
+import { grey } from '@material-ui/core/colors'
 
 const useStyles = makeStyles(theme => ({
     inputContainer: {
         paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2)
+        paddingRight: theme.spacing(2),
+        color: grey[500]
     },
     inputText: {
         textAlign: 'center',
@@ -30,6 +32,7 @@ const classes = useStyles()
     <div {...props}>
       <Input
       value={generalSearch}
+      className={classes.input}
       type="search"
       className={classes.inputContainer}
       inputProps={{className: classes.inputText}}
