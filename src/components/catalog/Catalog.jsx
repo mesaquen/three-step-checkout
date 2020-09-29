@@ -1,60 +1,66 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { itemsSelector } from '../../redux/selectors/shopSelectors'
 import CatalogItem from '../catalog-item/CatalogItem'
-import { searchItems } from '../../redux/actions/shopActions'
 import SearchBar from '../search-bar/SearchBar'
-import { makeStyles } from '@material-ui/core'
-
-const GridContainer = styled.div`
-  display: grid;
-  max-width: 1240px;
-  grid-template-columns: auto;
-  align-items: center;
-  grid-gap: 1em;
-  margin: 0 auto;
-
-  @media (min-width: 600px) {
-    grid-template-columns: auto auto;
-  }
-
-  @media (min-width: 768px) {
-    max-width: 80%;
-    grid-template-columns: repeat(3, 1fr);
-  }
-`
+import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
+import { addToCart } from '../../redux/actions/cartActions'
 
 const useStyles = makeStyles(theme => ({
-  searchBar: {
-    gridColumn: 'span 3',
+  gridContainer: props => ({
+    display: 'grid',
+    gridGap: '1em',
+    gridTemplateColumns: `repeat(${props.columns}, 1fr)`,
+    margin: '0 auto',
+    maxWidth: props.limitWidth ? '80%' : '100%'
+  }),
+  searchBar: props => ({
+    gridColumn: `1 / span ${props.columns}`,
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(3)
-  },
+    marginBottom: theme.spacing(3),
+  }),
 }))
 
 const Catalog = () => {
   const dispatch = useDispatch()
   const items = useSelector(itemsSelector)
-  const handleSearch = event => {
-    const { value } = event.target
-    dispatch(searchItems(value))
+  const theme = useTheme()
+  const screenMediumUp = useMediaQuery(theme.breakpoints.up('sm'))
+  const screenLargeUp = useMediaQuery(theme.breakpoints.up('md'))
+
+  const getColuns = () => {
+    if (screenLargeUp) {
+      return 3
+    }
+
+    if (screenMediumUp) {
+      return 2
+    }
+
+    return 1
   }
-  const classes = useStyles()
+
+  const columns = getColuns()
+
+  const classes = useStyles({ columns , limitWidth: columns > 2})
+
+  const handleAddToCart = (itemId) => {
+    dispatch(addToCart(itemId))
+  }
+
   return (
-    <div>
-      <GridContainer>
-        <SearchBar className={classes.searchBar} />
-        {items.map(item => (
-          <CatalogItem
-            key={item.id}
-            thumbnail={item.thumbnailURL}
-            description={item.description}
-            currency={item.currency}
-            price={item.price}
-          />
-        ))}
-      </GridContainer>
+    <div className={classes.gridContainer}>
+      <SearchBar className={classes.searchBar} />
+      {items.map(item => (
+        <CatalogItem
+          key={item.id}
+          thumbnail={item.thumbnailURL}
+          description={item.description}
+          currency={item.currency}
+          price={item.price}
+          onClick={() => handleAddToCart(item.id)}
+        />
+      ))}
     </div>
   )
 }
