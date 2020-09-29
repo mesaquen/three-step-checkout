@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, makeStyles, Typography } from '@material-ui/core'
+import { Button, makeStyles, Paper, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   item: {
@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
 
+  button: {
+    boxShadow: theme.shadows[0],
+  },
+
   detailLabel: {
     color: theme.palette.grey
   } ,
@@ -48,7 +52,7 @@ const CatalogItem = ({
 }) => {
   const classes = useStyles({ thumbnail })
   return (
-    <div className={classes.item} {...props}>
+    <Paper className={classes.item} {...props}>
       <div className={classes.thumbnail}></div>
       <div className={classes.infoContainer}>
         <Typography className={classes.title}>{description}</Typography>
@@ -66,7 +70,7 @@ const CatalogItem = ({
           Add to cart
         </Button>
       </div>
-    </div>
+    </Paper>
   )
 }
 
