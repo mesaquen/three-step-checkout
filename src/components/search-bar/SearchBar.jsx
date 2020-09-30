@@ -32,7 +32,6 @@ const classes = useStyles()
     <div {...props}>
       <Input
       value={generalSearch}
-      className={classes.input}
       type="search"
       className={classes.inputContainer}
       inputProps={{className: classes.inputText}}
