@@ -6,4 +6,11 @@ export default createMuiTheme({
       main: '#6B8067',
     },
   },
+  typography: {
+    fontFamily: `'Open sans', 'Roboto', 'Arial', sans-serif`,
+
+    button: {
+      fontWeight: '600'
+    }
+  }
 })

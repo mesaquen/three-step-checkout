@@ -52,8 +52,9 @@ const Catalog = () => {
 
   const classes = useStyles({ columns , limitWidth: columns > 2})
 
-  const handleAddToCart = (itemId) => {
-    dispatch(addToCart(itemId))
+  const handleAddToCart = (item) => {
+    debugger
+    dispatch(addToCart(item))
     history.push('checkout')
   }
 
@@ -63,11 +64,12 @@ const Catalog = () => {
       {items.map(item => (
         <CatalogItem
           key={item.id}
+          id={item.id}
           thumbnail={item.thumbnailURL}
           description={item.description}
           currency={item.currency}
           price={item.price}
-          onClick={() => handleAddToCart(item.id)}
+          onClick={handleAddToCart}
         />
       ))}
     </div>

@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom'
 const useStyles = makeStyles(theme => ({
   title: {
     margin: '0 auto',
+    fontFamily: 'Arial, sans-serif'
   },
   appbar: {
     backgroundColor: grey[200],
