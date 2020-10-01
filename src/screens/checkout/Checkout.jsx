@@ -5,11 +5,14 @@ import {
   Typography,
   Button,
 } from '@material-ui/core'
+import BankIcon from '@material-ui/icons/AccountBalance'
 import { grey } from '@material-ui/core/colors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import CheckoutProductInfo from '../../components/checkout-product-info/CheckoutProductInfo'
 import CheckoutStepper from '../../components/checkout-stepper/CheckoutStepper'
+import CheckoutTotal from '../../components/checkout-total/CheckoutTotal'
 import PaymentMethod from '../../components/payment-method/PaymentMethod'
 import { PAYMENT_METHODS, PAYMENT_METHODS_IDS, SCREENS } from '../../Constants'
 import {
@@ -44,6 +47,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   }),
   info: {
+    minHeight: 340,
     padding: theme.spacing(3),
     flexDirection: 'column',
     borderRadius: '1rem',
@@ -86,13 +90,24 @@ const useStyles = makeStyles(theme => ({
     gridColumn: '2',
     gridRow: '1 / span 2',
   },
+  bankIconContainer: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+  },
+  bankIcon: {
+    marginRight: theme.spacing(2),
+    fontSize: 36,
+  },
+  smalltext: {
+    fontSize: 12,
+  },
 }))
 
 const Checkout = () => {
   const theme = useTheme()
   const limitWidth = useMediaQuery(theme.breakpoints.up('md'))
   const dispatch = useDispatch()
-  const history = useHistory()
   const item = useSelector(selectItem)
   const deliveryDetails = useSelector(selectDeliveryDetails)
   const { activeStep, selectedPaymentMethod } = useSelector(selectOrderDetails)
@@ -105,7 +120,7 @@ const Checkout = () => {
   }, [dispatch])
 
   const goToConfirmation = () => {
-    history.push('confirmation')
+    dispatch(setActiveStep(activeStep + 1))
   }
 
   const handlePaymentMethodChange = paymentMethod => {
@@ -123,73 +138,89 @@ const Checkout = () => {
         steps={STEPS}
         limitWidth={limitWidth}
       />
-      {item && deliveryDetails && (
-        <div className={classes.container}>
-          <div className={classes.image}></div>
-          <div className={classes.info}>
-            <div className={classes.infoGrid}>
-              <div className={classes.cartInfoContainer}>
-                <Typography variant='h5'>Cart total</Typography>
-                <Typography>{item.description}</Typography>
-                <Typography
-                  className={classes.bodyText}
-                >{`x${item.quantity} ${item.color} ${item.size}`}</Typography>
-                <Typography
-                  className={classes.bodyText}
-                >{`Item #${item.id}`}</Typography>
-              </div>
-              <div className={classes.deliveryDetailsContainer}>
-                <Typography variant='h6'>Delivery details</Typography>
-                <Typography
-                  className={classes.bodyText}
-                >{`${deliveryDetails.name}`}</Typography>
-                <Typography
-                  className={classes.bodyText}
-                >{`Prone no: ${deliveryDetails.phone}`}</Typography>
-                <Typography
-                  className={classes.bodyText}
-                >{`Address: ${deliveryDetails.address}`}</Typography>
-              </div>
-              <div className={classes.totalCostContainer}>
-                <Typography className={classes.totalCostTitle}>
-                  Total cost
-                </Typography>
-                <Typography className={classes.bodyText}>
-                  Delivery included
-                </Typography>
-                <Typography
-                  variant='h4'
-                  className={classes.subTotal}
-                >{`$${subtotal}`}</Typography>
-              </div>
-              <div className={classes.paymentMethodContainer}>
-                <Typography variant='h6'>Select your payment method</Typography>
-                {PAYMENT_METHODS.map(paymentMethod => (
-                  <PaymentMethod
-                    key={paymentMethod.id}
-                    onClick={handlePaymentMethodChange}
-                    id={paymentMethod.id}
-                    title={paymentMethod.title}
-                    image={paymentMethod.image}
-                    selected={selectedPaymentMethod === paymentMethod.id}
+      <div className={classes.container}>
+        <div className={classes.image}></div>
+        <div className={classes.info}>
+          <div className={classes.infoGrid}>
+            {item && deliveryDetails && activeStep === 1 && (
+              <>
+                <div className={classes.cartInfoContainer}>
+                  <CheckoutProductInfo title='Cart total' classes={classes} />
+                </div>
+                <div className={classes.deliveryDetailsContainer}>
+                  <Typography variant='h6'>Delivery details</Typography>
+                  <Typography
+                    className={classes.bodyText}
+                  >{`${deliveryDetails.name}`}</Typography>
+                  <Typography
+                    className={classes.bodyText}
+                  >{`Prone no: ${deliveryDetails.phone}`}</Typography>
+                  <Typography
+                    className={classes.bodyText}
+                  >{`Address: ${deliveryDetails.address}`}</Typography>
+                </div>
+                <CheckoutTotal value={subtotal} classes={classes} />
+                <div className={classes.paymentMethodContainer}>
+                  <Typography variant='h6'>
+                    Select your payment method
+                  </Typography>
+                  {PAYMENT_METHODS.map(paymentMethod => (
+                    <PaymentMethod
+                      key={paymentMethod.id}
+                      onClick={handlePaymentMethodChange}
+                      id={paymentMethod.id}
+                      title={paymentMethod.title}
+                      image={paymentMethod.image}
+                      selected={selectedPaymentMethod === paymentMethod.id}
+                    />
+                  ))}
+                </div>
+                <div className={classes.buttonContainer}>
+                  <Button
+                    className={classes.button}
+                    fullWidth
+                    variant='contained'
+                    color='primary'
+                    onClick={goToConfirmation}
+                  >
+                    Continue
+                  </Button>
+                </div>
+              </>
+            )}
+            {activeStep === 2 && item.quantity && (
+              <>
+                <div>
+                  <CheckoutProductInfo
+                    title='Order summary'
+                    classes={classes}
                   />
-                ))}
-              </div>
-              <div className={classes.buttonContainer}>
-                <Button
-                  className={classes.button}
-                  fullWidth
-                  variant='contained'
-                  color='primary'
-                  onClick={goToConfirmation}
-                >
-                  Continue
-                </Button>
-              </div>
-            </div>
+                </div>
+                <div>
+                  <Typography variant='h6'>Payment method </Typography>
+                  <div className={classes.bankIconContainer}>
+                    <BankIcon className={classes.bankIcon} color='primary' />
+                    <Typography className={classes.smalltext}>
+                      Online Banking
+                    </Typography>
+                  </div>
+                </div>
+                <CheckoutTotal value={subtotal} classes={classes} />
+                <div className={classes.buttonContainer}>
+                  <Button
+                    className={classes.button}
+                    fullWidth
+                    variant='contained'
+                    color='primary'
+                  >
+                    Place order
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
