@@ -7,9 +7,8 @@ import {
 } from '@material-ui/core'
 import BankIcon from '@material-ui/icons/AccountBalance'
 import { grey } from '@material-ui/core/colors'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import CheckoutProductInfo from '../../components/checkout-product-info/CheckoutProductInfo'
 import CheckoutStepper from '../../components/checkout-stepper/CheckoutStepper'
 import CheckoutTotal from '../../components/checkout-total/CheckoutTotal'
@@ -119,8 +118,45 @@ const Checkout = () => {
     dispatch(setSelectedPaymentMethod(PAYMENT_METHODS_IDS.ONLINE_BANKING))
   }, [dispatch])
 
-  const goToConfirmation = () => {
+  const goToConfirmation = useCallback(() => {
     dispatch(setActiveStep(activeStep + 1))
+    dispatch(setHeaderTitle(SCREENS.REVIEW))
+  }, [dispatch, activeStep])
+
+  useEffect(() => {
+    const handlePanelListener = (command, event) => {
+      if (command === 'event' && event.type === 'new_location') {
+        if (event.data.indexOf('#success') === 0) {
+          goToConfirmation()
+        }
+        return false
+      }
+    }
+
+    window.PayWithMyBank.addPanelListener(handlePanelListener)
+
+    return () => {
+      window.PayWithMyBank.removePanelListener(handlePanelListener)
+    }
+  }, [goToConfirmation])
+
+  const handleCheckout = () => {
+    if (selectedPaymentMethod === PAYMENT_METHODS_IDS.ONLINE_BANKING) {
+      const options = {
+        accessId: 'D61EC9BAF0BB369B9438',
+        merchantId: '1004314986',
+        metadata: { demo: 'enabled' },
+        currency: item.currency,
+        paymentType: 'Deferred',
+        amount: subtotal.toFixed(2).toString(),
+        description: 'mesaquenf@gmail.com',
+        merchantReference: 'dd9a5011-0901-4049-b975-4cf60dce6dd0',
+        returnUrl: '#success',
+        cancelUrl: '#cancel',
+      }
+
+      window.PayWithMyBank.establish(options)
+    }
   }
 
   const handlePaymentMethodChange = paymentMethod => {
@@ -181,7 +217,7 @@ const Checkout = () => {
                     fullWidth
                     variant='contained'
                     color='primary'
-                    onClick={goToConfirmation}
+                    onClick={handleCheckout}
                   >
                     Continue
                   </Button>

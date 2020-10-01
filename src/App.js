@@ -7,7 +7,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import theme from './theme/theme'
 import Header from './components/header/Header'
 import Checkout from './screens/checkout/Checkout'
-import ConfirmationPage from './screens/confirmation/ConfirmationPage'
 import { store, persistor } from './redux/store'
 
 const App = () => {
@@ -20,7 +19,6 @@ const App = () => {
             <Switch>
               <Route exact path='/' component={Home} />
               <Route path='/checkout' component={Checkout} />
-              <Route path='/confirmation' component={ConfirmationPage} />
             </Switch>
           </Router>
         </ThemeProvider>

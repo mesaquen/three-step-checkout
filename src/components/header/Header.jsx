@@ -39,7 +39,7 @@ const Header = () => {
   const showBackButton = history.location.pathname !== '/'
 
   const handleBack = () => {
-    history.goBack()
+    history.replace('/')
   }
 
   return (
