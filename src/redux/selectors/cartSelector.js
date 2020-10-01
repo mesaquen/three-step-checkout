@@ -30,7 +30,6 @@ export const selectDeliveryDetails = createSelector(
 export const selectOrderDetails = createSelector(
   [selectCart],
   ({ subtotal, selectedPaymentMethod, activeStep }) => {
-    debugger
     return {
       subtotal,
       selectedPaymentMethod,

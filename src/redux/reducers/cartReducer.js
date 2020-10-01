@@ -1,5 +1,5 @@
 import { PAYMENT_METHODS_IDS } from '../../Constants'
-import { ADD_TO_CART, SET_ACTIVE_STEP, SET_PAYMENT_METHOD, SET_SUBTOTAL } from '../types'
+import { ADD_TO_CART, SET_ACTIVE_STEP, SET_PAYMENT_METHOD } from '../types'
 
 const initialState = {
   item: null,

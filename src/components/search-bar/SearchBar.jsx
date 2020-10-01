@@ -9,37 +9,37 @@ import { selectGeneralSearch } from '../../redux/selectors/shopSelectors'
 import { grey } from '@material-ui/core/colors'
 
 const useStyles = makeStyles(theme => ({
-    inputContainer: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
-        color: grey[500]
-    },
-    inputText: {
-        textAlign: 'center',
-        fontSize: '1.5rem'
-    }
+  inputContainer: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    color: grey[500],
+  },
+  inputText: {
+    textAlign: 'center',
+    fontSize: '1.5rem',
+  },
 }))
 
 const SearchBar = props => {
   const dispatch = useDispatch()
   const generalSearch = useSelector(selectGeneralSearch)
 
-  const handleChange = (event) => {
-      dispatch(searchItems(event.target.value))
+  const handleChange = event => {
+    dispatch(searchItems(event.target.value))
   }
-const classes = useStyles()
+  const classes = useStyles()
   return (
     <div {...props}>
       <Input
-      value={generalSearch}
-      type="search"
-      className={classes.inputContainer}
-      inputProps={{className: classes.inputText}}
+        value={generalSearch}
+        type='search'
+        className={classes.inputContainer}
+        inputProps={{ className: classes.inputText }}
         startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
+          <InputAdornment position='start'>
+            <SearchIcon />
+          </InputAdornment>
+        }
         fullWidth
         placeholder='Search for your sneaker'
         onChange={handleChange}

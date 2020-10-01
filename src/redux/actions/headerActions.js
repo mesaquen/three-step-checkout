@@ -1,6 +1,6 @@
-import { SET_HEADER_TITLE } from "../types";
+import { SET_HEADER_TITLE } from '../types'
 
-export const setHeaderTitle = (payload) => ({
-    type: SET_HEADER_TITLE,
-    payload
+export const setHeaderTitle = payload => ({
+  type: SET_HEADER_TITLE,
+  payload,
 })

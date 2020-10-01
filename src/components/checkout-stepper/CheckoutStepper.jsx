@@ -35,7 +35,7 @@ const useCustomStepIconStyles = makeStyles({
     zIndex: 1,
     fontSize: 18,
   },
-});
+})
 
 const CustomConnector = withStyles({
   alternativeLabel: {
@@ -58,11 +58,11 @@ const CustomConnector = withStyles({
     borderTopWidth: 1,
     borderRadius: 1,
   },
-})(StepConnector);
+})(StepConnector)
 
-const CustomStepIcon = (props) => {
-  const classes = useCustomStepIconStyles();
-  const { active, completed } = props;
+const CustomStepIcon = props => {
+  const classes = useCustomStepIconStyles()
+  const { active, completed } = props
 
   return (
     <div
@@ -70,16 +70,20 @@ const CustomStepIcon = (props) => {
         [classes.active]: active || completed,
       })}
     >
-       <div className={classes.circle} />
+      <div className={classes.circle} />
     </div>
-  );
+  )
 }
 
 const CheckoutStepper = ({ activeStep, steps, limitWidth, ...props }) => {
   const classes = useStyles({ limitWidth })
   return (
     <div className={classes.container}>
-      <Stepper activeStep={activeStep} alternativeLabel connector={<CustomConnector/>}>
+      <Stepper
+        activeStep={activeStep}
+        alternativeLabel
+        connector={<CustomConnector />}
+      >
         {steps.map(label => (
           <Step key={label}>
             <StepLabel StepIconComponent={CustomStepIcon}>{label}</StepLabel>

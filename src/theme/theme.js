@@ -10,7 +10,7 @@ export default createMuiTheme({
     fontFamily: `'Open sans', 'Roboto', 'Arial', sans-serif`,
 
     button: {
-      fontWeight: '600'
-    }
-  }
+      fontWeight: '600',
+    },
+  },
 })

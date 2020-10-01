@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const PaymentMethod = ({ id, title, image, onClick, selected }) => {
+const PaymentMethod = ({ id, title, image, onClick, selected , ...props}) => {
   const classes = useStyles({ selected })
 
   const handleClick = () => {
@@ -32,7 +32,7 @@ const PaymentMethod = ({ id, title, image, onClick, selected }) => {
   }
 
   return (
-    <div className={classes.container} onClick={handleClick}>
+    <div className={classes.container} onClick={handleClick} {...props}>
       <Typography className={classes.title}>{title}</Typography>
       <img className={classes.image} src={image} alt={`${title}`} />
     </div>

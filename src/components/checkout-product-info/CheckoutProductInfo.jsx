@@ -1,9 +1,9 @@
 import { Typography } from '@material-ui/core'
 import React from 'react'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectItem } from '../../redux/selectors/cartSelector'
-const CheckoutProductInfo = ({title, classes}) => {
-    const item = useSelector(selectItem)
+const CheckoutProductInfo = ({ title, classes }) => {
+  const item = useSelector(selectItem)
   return (
     <>
       <Typography variant='h5'>{title}</Typography>

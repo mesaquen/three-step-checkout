@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom'
 const useStyles = makeStyles(theme => ({
   title: {
     margin: '0 auto',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
   },
   appbar: {
     backgroundColor: grey[200],
@@ -22,12 +22,12 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: props => ({
     maxWidth: props.limitWidth ? '80%' : null,
-    margin: props.limitWidth ?  '0 10vw' : null
+    margin: props.limitWidth ? '0 10vw' : null,
   }),
   button: {
     background: 'rgba(0,0,0,0.05)',
-    borderRadius: '1rem'
-  }
+    borderRadius: '1rem',
+  },
 }))
 
 const Header = () => {
@@ -35,7 +35,7 @@ const Header = () => {
   const { title } = useSelector(selectHeaderOptions)
   const theme = useTheme()
   const limitWidth = useMediaQuery(theme.breakpoints.up('md'))
-  const classes = useStyles({limitWidth})
+  const classes = useStyles({ limitWidth })
   const showBackButton = history.location.pathname !== '/'
 
   const handleBack = () => {
@@ -46,7 +46,11 @@ const Header = () => {
     <AppBar position='static' className={classes.appbar} color='inherit'>
       <Toolbar className={classes.toolbar}>
         {showBackButton && (
-          <Button className={classes.button} onClick={handleBack} startIcon={<BackIcon />}>
+          <Button
+            className={classes.button}
+            onClick={handleBack}
+            startIcon={<BackIcon />}
+          >
             Back
           </Button>
         )}
