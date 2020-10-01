@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     gridGap: '1em',
     gridTemplateColumns: `repeat(${props.columns}, 1fr)`,
     margin: '0 auto',
-    maxWidth: props.limitWidth ? '80%' : '100%'
+    maxWidth: props.limitWidth ? '80%' : '100%',
   }),
   searchBar: props => ({
     gridColumn: `1 / span ${props.columns}`,
@@ -31,7 +31,7 @@ const Catalog = () => {
   const theme = useTheme()
   const screenMediumUp = useMediaQuery(theme.breakpoints.up('sm'))
   const screenLargeUp = useMediaQuery(theme.breakpoints.up('md'))
-  
+
   useEffect(() => {
     dispatch(setHeaderTitle(SCREENS.SHOP))
   }, [dispatch])
@@ -50,10 +50,9 @@ const Catalog = () => {
 
   const columns = getColuns()
 
-  const classes = useStyles({ columns , limitWidth: columns > 2})
+  const classes = useStyles({ columns, limitWidth: columns > 2 })
 
-  const handleAddToCart = (item) => {
-    debugger
+  const handleAddToCart = item => {
     dispatch(addToCart(item))
     history.push('checkout')
   }

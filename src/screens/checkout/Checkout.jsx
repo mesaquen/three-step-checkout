@@ -1,8 +1,5 @@
 import {
   makeStyles,
-  Stepper,
-  Step,
-  StepLabel,
   useMediaQuery,
   useTheme,
   Typography,
@@ -15,10 +12,15 @@ import { useHistory } from 'react-router-dom'
 import CheckoutStepper from '../../components/checkout-stepper/CheckoutStepper'
 import PaymentMethod from '../../components/payment-method/PaymentMethod'
 import { PAYMENT_METHODS, PAYMENT_METHODS_IDS, SCREENS } from '../../Constants'
+import {
+  setSelectedPaymentMethod,
+  setActiveStep,
+} from '../../redux/actions/cartActions'
 import { setHeaderTitle } from '../../redux/actions/headerActions'
 import {
   selectDeliveryDetails,
   selectItem,
+  selectOrderDetails,
 } from '../../redux/selectors/cartSelector'
 
 const STEPS = ['Cart', 'Payment options', 'Receipt']
@@ -93,18 +95,21 @@ const Checkout = () => {
   const history = useHistory()
   const item = useSelector(selectItem)
   const deliveryDetails = useSelector(selectDeliveryDetails)
-  const [activeStep, setActiveStep] = useState(DEFAULT_STEP)
-  const [subtotal, setSubtotal] = useState(item.quantity * item.price)
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    PAYMENT_METHODS_IDS.ONLINE_BANKING,
-  )
+  const { activeStep, selectedPaymentMethod } = useSelector(selectOrderDetails)
+  const [subtotal] = useState(item.price * item.quantity)
 
   useEffect(() => {
     dispatch(setHeaderTitle(SCREENS.CHECKOUT))
+    dispatch(setActiveStep(DEFAULT_STEP))
+    dispatch(setSelectedPaymentMethod(PAYMENT_METHODS_IDS.ONLINE_BANKING))
   }, [dispatch])
 
   const goToConfirmation = () => {
     history.push('confirmation')
+  }
+
+  const handlePaymentMethodChange = paymentMethod => {
+    dispatch(setSelectedPaymentMethod(paymentMethod))
   }
 
   const imageUrl = item?.maxresURL
@@ -162,7 +167,7 @@ const Checkout = () => {
                 {PAYMENT_METHODS.map(paymentMethod => (
                   <PaymentMethod
                     key={paymentMethod.id}
-                    onClick={setSelectedPaymentMethod}
+                    onClick={handlePaymentMethodChange}
                     id={paymentMethod.id}
                     title={paymentMethod.title}
                     image={paymentMethod.image}
@@ -176,6 +181,7 @@ const Checkout = () => {
                   fullWidth
                   variant='contained'
                   color='primary'
+                  onClick={goToConfirmation}
                 >
                   Continue
                 </Button>

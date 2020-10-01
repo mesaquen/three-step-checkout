@@ -26,3 +26,15 @@ export const selectDeliveryDetails = createSelector(
   [selectCart],
   cart => cart.delivery,
 )
+
+export const selectOrderDetails = createSelector(
+  [selectCart],
+  ({ subtotal, selectedPaymentMethod, activeStep }) => {
+    debugger
+    return {
+      subtotal,
+      selectedPaymentMethod,
+      activeStep,
+    }
+  },
+)

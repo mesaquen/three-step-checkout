@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     background: theme.palette.background.paper,
     borderRadius: '0.5rem',
+    transition: theme.transitions.create(['box-shadow']),
     boxShadow: props.selected ? '0 0 0 0.1rem #5DAC50' : null,
     cursor: 'pointer',
     marginTop: theme.spacing(2),
